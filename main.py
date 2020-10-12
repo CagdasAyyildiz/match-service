@@ -1,8 +1,7 @@
-from fastapi import FastAPI
-import requests
-import json
 import pandas as pd
+import requests
 import uvicorn
+from fastapi import FastAPI
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
