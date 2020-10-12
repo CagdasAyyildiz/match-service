@@ -51,7 +51,7 @@ def extract_user_info(encoded_data):
 @app.get("/user/{username}/recommendations")
 def match_users(username):
     non_clear_data = requests.get(f'http://user-info-service.herokuapp.com/user/samples/{username}').json()
-
+    print(non_clear_data)
     extract_user_info(non_clear_data)
     users_frame = pd.DataFrame(user_infos)
     count = CountVectorizer(stop_words='english')
