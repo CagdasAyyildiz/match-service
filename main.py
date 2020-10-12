@@ -17,7 +17,6 @@ def get_recommendations(users_frame, indices, title, cosine_sim):
     sim_scores = list(enumerate(cosine_sim[idx]))
 
     # Sort the movies based on the similarity scores
-    print(sim_scores)
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
     # Get the scores of the 30 most similar people
@@ -51,7 +50,6 @@ def extract_user_info(encoded_data):
 @app.get("/user/{username}/recommendations")
 def match_users(username):
     non_clear_data = requests.get(f'http://user-info-service.herokuapp.com/user/samples/{username}').json()
-    print(non_clear_data)
     extract_user_info(non_clear_data)
     users_frame = pd.DataFrame(user_infos)
     count = CountVectorizer(stop_words='english')
@@ -66,6 +64,8 @@ def match_users(username):
 
     return result
 
-
+'''
 if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0')
+    uvicorn.run(app, host='0.0.0.0', port=5000)
+    '''
+
