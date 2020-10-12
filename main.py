@@ -66,6 +66,8 @@ def match_users(username):
 
     return result
 
-
+'''
 if __name__ == "__main__":
-    uvicorn.run(app, port=5000)
+    uvicorn.run(app)
+    '''
+
