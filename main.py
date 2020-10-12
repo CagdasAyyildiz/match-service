@@ -12,6 +12,7 @@ app = FastAPI()
 def get_recommendations(users_frame, indices, title, cosine_sim):
     # Get the index of the people that matches the title
     idx = indices[title]
+    print(idx)
 
     # Get the pairwsie similarity scores of all people with that people
     sim_scores = list(enumerate(cosine_sim[idx]))
@@ -50,6 +51,7 @@ def extract_user_info(encoded_data):
 @app.get("/user/{username}/recommendations")
 def match_users(username):
     non_clear_data = requests.get(f'http://user-info-service.herokuapp.com/user/samples/{username}').json()
+    print(non_clear_data)
     extract_user_info(non_clear_data)
     users_frame = pd.DataFrame(user_infos)
     count = CountVectorizer(stop_words='english')
@@ -61,11 +63,11 @@ def match_users(username):
 
     # Json'a yazmak için
     result = {"matches": [i for i in final_list]}
-
+    user_infos.clear()
     return result
 
-'''
+
 if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0', port=5000)
-    '''
+    uvicorn.run(app, host='0.0.0.0')
+
 
