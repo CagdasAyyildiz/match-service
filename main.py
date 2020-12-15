@@ -1,20 +1,15 @@
 import pandas as pd
 import requests
 import uvicorn
+import json
 from fastapi import FastAPI
+from fastapi.testclient import TestClient
 from fastapi.middleware.cors import CORSMiddleware
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = FastAPI()
-'''
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-]'''
-
+client = TestClient(app)
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,49 +22,21 @@ app.add_middleware(
 
 # sim_scores daki indisler ile dönen kişi miktarını değiştirebilirsin.
 def get_recommendations(users_frame, indices, title, cosine_sim):
-    # Get the index of the people that matches the title
     idx = indices[title]
-    print(idx)
 
-    # Get the pairwsie similarity scores of all people with that people
     sim_scores = list(enumerate(cosine_sim[idx]))
 
-    # Sort the movies based on the similarity scores
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-    # Get the scores of the 30 most similar people
     sim_scores = sim_scores[1:30]
+    print(sim_scores)
 
-    # Get the movie indices
     people_indices = [i[0] for i in sim_scores]
 
-    # Return the top 10 most similar movies
     return users_frame[0].iloc[people_indices]
 
 
-user_infos = []
-
-
-# Burada vektörize edebilmek için kullanacağımız string verilerini concat ediyoruz
-def extract_user_info(encoded_data):
-    for i in encoded_data["matches"]:
-        place_holder = [i["username"]]
-        features_string = ' '.join([str(elem).replace(" ", "") for elem in i["features"]])
-        hobbies_string = ' '.join([str(elem).replace(" ", "") for elem in i["hobbies"]])
-        job_string = i["job"].replace(" ", "")
-        school_string = i["school"].replace(" ", "")
-        location_string = i["location"]["country"].replace(" ", "") + ' ' + i["location"]["city"].replace(" ", "")
-        last_str = (features_string + ' ' + hobbies_string + ' ' + job_string + ' ' +
-                    school_string + ' ' + location_string)
-        place_holder.append(last_str)
-        user_infos.append(place_holder)
-
-
-@app.get("/user/{username}/recommendations")
-def match_users(username):
-    non_clear_data = requests.get(f'http://user-info-service.herokuapp.com/user/samples/{username}').json()
-    print(non_clear_data)
-    extract_user_info(non_clear_data)
+def get_recommendations_based_on_cos_sim(username, user_infos):
     users_frame = pd.DataFrame(user_infos)
     count = CountVectorizer(stop_words='english')
     count_matrix = count.fit_transform(users_frame[1])
@@ -84,7 +51,41 @@ def match_users(username):
     return result
 
 
+# Burada vektörize edebilmek için kullanacağımız string verilerini concat ediyoruz
+def extract_user_info(encoded_data):
+    user_infos = []
+    for i in encoded_data.get("matches", []):
+        place_holder = [i["username"]]
+        features_string = ' '.join([str(elem).replace(" ", "") for elem in i["features"]])
+        hobbies_string = ' '.join([str(elem).replace(" ", "") for elem in i["hobbies"]])
+        job_string = i["job"].replace(" ", "")
+        school_string = i["school"].replace(" ", "")
+        location_string = i["location"]["country"].replace(" ", "") + ' ' + i["location"]["city"].replace(" ", "")
+        last_str = (features_string + ' ' + hobbies_string + ' ' + job_string + ' ' +
+                    school_string + ' ' + location_string)
+        place_holder.append(last_str)
+        user_infos.append(place_holder)
+    return user_infos
+
+
+def get_user_recommendations(username, retrieve_data):
+    non_clear_data = retrieve_data(username)
+    user_infos = extract_user_info(non_clear_data)
+    result = get_recommendations_based_on_cos_sim(username, user_infos)
+    return result
+
+
+def get_sample_data(username):
+    url = f'http://user-info-service.herokuapp.com/user/samples/{username}'
+    sample_data = requests.get(url).json()
+    return sample_data
+
+
+@app.get("/user/{username}/recommendations")
+def match_users(username):
+    match_result = get_user_recommendations(username, get_sample_data)
+    return match_result
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host='0.0.0.0')
-
-

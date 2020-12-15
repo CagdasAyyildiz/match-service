@@ -1,0 +1,212 @@
+{
+  "matches": [
+  {
+    "id": "testuserid1",
+    "location": {
+      "city": "location_city_1",
+      "country": "location_country_1"
+    },
+    "isAdmin": true,
+    "image": "https://example.com/userimage.png",
+    "hobbies": [
+      "hobby1",
+      "hobby2"
+    ],
+    "features": [
+      "feature1",
+      "feature2",
+      "feature3",
+      "feature4",
+      "feature5"
+    ],
+    "followers": [
+      "testuser1",
+      "testuser2"
+    ],
+    "following": [
+      "testuser1",
+      "testuser2",
+      "testuser3"
+    ],
+    "job": "Test Job",
+    "school": "Test School",
+    "website": "https://example.com",
+    "twitter": "",
+    "bio": "Hi! I'm Test User.",
+    "gender": "male",
+    "wish_to_speak": [
+      "Turkish"
+    ],
+    "username": "testuser1",
+    "name": "Test User",
+    "email": "test@example.com",
+    "bdate": "1998-04-12T00:00:00.000Z",
+    "languages": [
+      {
+        "language": "English",
+        "proficiency": "Professional"
+      },
+      {
+        "language": "German",
+        "proficiency": "Intermediate"
+      }
+    ]
+  },
+  {
+    "id": "testuserid2",
+    "location": {
+      "city": "location_city_2",
+      "country": "location_country_2"
+    },
+    "isAdmin": false,
+    "image": "https://example.com/userimage2.png",
+    "hobbies": [
+      "hobby3",
+      "hobby4"
+    ],
+    "features": [
+      "feature6",
+      "feature7",
+      "feature8",
+      "feature9",
+      "feature10"
+    ],
+    "followers": [
+      "testuser1",
+      "testuser2"
+    ],
+    "following": [
+      "testuser1",
+      "testuser2",
+      "testuser3"
+    ],
+    "job": "Test Job",
+    "school": "Test School",
+    "website": "https://example.com",
+    "twitter": "",
+    "bio": "Hi! I'm Test User2.",
+    "gender": "male",
+    "wish_to_speak": [
+      "Turkish"
+    ],
+    "username": "testuser2",
+    "name": "Test User2",
+    "email": "test2@example.com",
+    "bdate": "1998-04-12T00:00:00.000Z",
+    "languages": [
+      {
+        "language": "English",
+        "proficiency": "Professional"
+      },
+      {
+        "language": "German",
+        "proficiency": "Intermediate"
+      }
+    ]
+  },
+    {
+    "id": "testuserid3",
+    "location": {
+      "city": "location_city_3",
+      "country": "location_country_1"
+    },
+    "isAdmin": true,
+    "image": "https://example.com/userimage.png",
+    "hobbies": [
+      "hobby1",
+      "hobby3"
+    ],
+    "features": [
+      "feature1",
+      "feature3",
+      "feature5",
+      "feature7",
+      "feature9"
+    ],
+    "followers": [
+      "testuser1",
+      "testuser2"
+    ],
+    "following": [
+      "testuser1",
+      "testuser2",
+      "testuser3"
+    ],
+    "job": "Test Job",
+    "school": "Test School",
+    "website": "https://example.com",
+    "twitter": "",
+    "bio": "Hi! I'm Test User.",
+    "gender": "male",
+    "wish_to_speak": [
+      "Turkish"
+    ],
+    "username": "testuser3",
+    "name": "Test User",
+    "email": "test@example.com",
+    "bdate": "1998-04-12T00:00:00.000Z",
+    "languages": [
+      {
+        "language": "English",
+        "proficiency": "Professional"
+      },
+      {
+        "language": "German",
+        "proficiency": "Intermediate"
+      }
+    ]
+  },
+    {
+    "id": "testuserid4",
+    "location": {
+      "city": "location_city_2",
+      "country": "location_country_2"
+    },
+    "isAdmin": true,
+    "image": "https://example.com/userimage.png",
+    "hobbies": [
+      "hobby3",
+      "hobby4"
+    ],
+    "features": [
+      "feature2",
+      "feature4",
+      "feature6",
+      "feature8",
+      "feature10"
+    ],
+    "followers": [
+      "testuser1",
+      "testuser2"
+    ],
+    "following": [
+      "testuser1",
+      "testuser2",
+      "testuser3"
+    ],
+    "job": "Test Job",
+    "school": "Test School",
+    "website": "https://example.com",
+    "twitter": "",
+    "bio": "Hi! I'm Test User.",
+    "gender": "male",
+    "wish_to_speak": [
+      "Turkish"
+    ],
+    "username": "testuser4",
+    "name": "Test User",
+    "email": "test@example.com",
+    "bdate": "1998-04-12T00:00:00.000Z",
+    "languages": [
+      {
+        "language": "English",
+        "proficiency": "Professional"
+      },
+      {
+        "language": "German",
+        "proficiency": "Intermediate"
+      }
+    ]
+  }
+  ]
+}

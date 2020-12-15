@@ -1,0 +1,6 @@
+[
+  ["testuser1", "feature1 feature2 feature3 feature4 feature5 hobby1 hobby2 TestJob TestSchool location_country_1 location_city_1"],
+  ["testuser2", "feature6 feature7 feature8 feature9 feature10 hobby3 hobby4 TestJob TestSchool location_country_2 location_city_2"],
+  ["testuser3", "feature1 feature3 feature5 feature7 feature9 hobby1 hobby3 TestJob TestSchool location_country_1 location_city_3"],
+  ["testuser4", "feature2 feature4 feature6 feature8 feature10 hobby3 hobby4 TestJob TestSchool location_country_2 location_city_2"]
+]

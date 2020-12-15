@@ -1,2 +1,6 @@
 /match-service/
 /users.json
+__pycache__
+.idea
+match-service-env
+/.vscode/
