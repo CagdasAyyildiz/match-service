@@ -2,11 +2,12 @@ import pandas as pd
 import requests
 import uvicorn
 import json
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.testclient import TestClient
 from fastapi.middleware.cors import CORSMiddleware
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from typing import Callable
 
 app = FastAPI()
 client = TestClient(app)
@@ -29,7 +30,6 @@ def get_recommendations(users_frame, indices, title, cosine_sim):
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
     sim_scores = sim_scores[1:30]
-    print(sim_scores)
 
     people_indices = [i[0] for i in sim_scores]
 
@@ -47,7 +47,6 @@ def get_recommendations_based_on_cos_sim(username, user_infos):
 
     # Json'a yazmak için
     result = {"matches": [i for i in final_list]}
-    user_infos.clear()
     return result
 
 
@@ -68,24 +67,26 @@ def extract_user_info(encoded_data):
     return user_infos
 
 
-def get_user_recommendations(username, retrieve_data):
-    non_clear_data = retrieve_data(username)
+def get_sample_data(username):
+    '''url = f'http://user-info-service.herokuapp.com/user/samples/{username}'
+    sample_data = requests.get(url).json()
+    return sample_data'''
+    with open('mock/user_list.json') as json_file:
+        data = json.load(json_file)
+    return data
+
+
+def get_user_recommendations(username):
+    non_clear_data = get_sample_data(username)
     user_infos = extract_user_info(non_clear_data)
     result = get_recommendations_based_on_cos_sim(username, user_infos)
     return result
 
 
-def get_sample_data(username):
-    url = f'http://user-info-service.herokuapp.com/user/samples/{username}'
-    sample_data = requests.get(url).json()
-    return sample_data
-
-
 @app.get("/user/{username}/recommendations")
-def match_users(username):
-    match_result = get_user_recommendations(username, get_sample_data)
+def match_users(match_result: dict = Depends(get_user_recommendations)):
     return match_result
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0')
+    uvicorn.run(app)
