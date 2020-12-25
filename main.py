@@ -68,12 +68,9 @@ def extract_user_info(encoded_data):
 
 
 def get_sample_data(username):
-    '''url = f'http://user-info-service.herokuapp.com/user/samples/{username}'
+    url = f'http://user-info-service.herokuapp.com/user/samples/{username}'
     sample_data = requests.get(url).json()
-    return sample_data'''
-    with open('mock/user_list.json') as json_file:
-        data = json.load(json_file)
-    return data
+    return sample_data
 
 
 def get_user_recommendations(username):

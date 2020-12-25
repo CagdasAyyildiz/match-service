@@ -40,7 +40,6 @@ def test_for_user1():
     response = client.get(f"/user/{username}/recommendations")
     assert response.status_code == 200
     assert response.json() == {"matches": ["testuser3", "testuser4", "testuser2"]}
-    app.dependency_overrides = {}
 
 
 def test_for_user2():
@@ -48,7 +47,6 @@ def test_for_user2():
     response = client.get(f"/user/{username}/recommendations")
     assert response.status_code == 200
     assert response.json() == {"matches": ["testuser4", "testuser3", "testuser1"]}
-    app.dependency_overrides = {}
 
 
 def test_for_user3():
@@ -56,7 +54,6 @@ def test_for_user3():
     response = client.get(f"/user/{username}/recommendations")
     assert response.status_code == 200
     assert response.json() == {"matches": ["testuser1", "testuser2", "testuser4"]}
-    app.dependency_overrides = {}
 
 
 def test_for_user4():
