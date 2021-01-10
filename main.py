@@ -70,13 +70,16 @@ def extract_user_info(encoded_data):
 def get_sample_data(username):
     url = f'http://user-info-service.herokuapp.com/user/samples/{username}'
     sample_data = requests.get(url).json()
+    if 'status_code' in sample_data.keys() and sample_data["status_code"] == 404:
+        return {}
     return sample_data
 
 
 def get_user_recommendations(username):
-    non_clear_data = get_sample_data(username)
-    user_infos = extract_user_info(non_clear_data)
-    result = get_recommendations_based_on_cos_sim(username, user_infos)
+    result = get_sample_data(username)
+    if len(result) != 0:
+        user_infos = extract_user_info(result)
+        result = get_recommendations_based_on_cos_sim(username, user_infos)
     return result
 
 
