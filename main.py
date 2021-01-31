@@ -1,7 +1,6 @@
 import pandas as pd
 import requests
 import uvicorn
-import pprint
 from fastapi import FastAPI, Depends
 from fastapi.testclient import TestClient
 from fastapi.middleware.cors import CORSMiddleware
@@ -57,8 +56,6 @@ def extract_user_info(encoded_data):
     school_string = ""
     location_string = ""
     user_infos = []
-    pp = pprint.PrettyPrinter(indent=4)
-    # pp.pprint(encoded_data)
     main_user = encoded_data["matches"][0]
     for i in encoded_data.get("matches", []):
         place_holder = [i["username"]]
@@ -91,7 +88,6 @@ def get_user_recommendations(username):
     result = get_sample_data(username)
     if len(result) != 0:
         user_infos = extract_user_info(result)
-        print(user_infos)
         result = get_recommendations_based_on_cos_sim(username, user_infos)
     return result
 
