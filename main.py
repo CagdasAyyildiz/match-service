@@ -1,13 +1,12 @@
 import pandas as pd
 import requests
 import uvicorn
-import json
+import pprint
 from fastapi import FastAPI, Depends
 from fastapi.testclient import TestClient
 from fastapi.middleware.cors import CORSMiddleware
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from typing import Callable
 
 app = FastAPI()
 client = TestClient(app)
@@ -52,14 +51,27 @@ def get_recommendations_based_on_cos_sim(username, user_infos):
 
 # Burada vektörize edebilmek için kullanacağımız string verilerini concat ediyoruz
 def extract_user_info(encoded_data):
+    features_string = ""
+    hobbies_string = ""
+    job_string = ""
+    school_string = ""
+    location_string = ""
     user_infos = []
+    pp = pprint.PrettyPrinter(indent=4)
+    # pp.pprint(encoded_data)
+    main_user = encoded_data["matches"][0]
     for i in encoded_data.get("matches", []):
         place_holder = [i["username"]]
-        features_string = ' '.join([str(elem).replace(" ", "") for elem in i["features"]])
-        hobbies_string = ' '.join([str(elem).replace(" ", "") for elem in i["hobbies"]])
-        job_string = i["job"].replace(" ", "")
-        school_string = i["school"].replace(" ", "")
-        location_string = i["location"]["country"].replace(" ", "") + ' ' + i["location"]["city"].replace(" ", "")
+        if len(main_user["features"]) > 0:
+            features_string = ' '.join([str(elem).replace(" ", "") for elem in i["features"]])
+        if len(main_user["hobbies"]) > 0:
+            hobbies_string = ' '.join([str(elem).replace(" ", "") for elem in i["hobbies"]])
+        if len(main_user["job"]) > 0:
+            job_string = i["job"].replace(" ", "")
+        if len(main_user["school"]) > 0:
+            school_string = i["school"].replace(" ", "")
+        if len(main_user["location"]["country"]) > 0 and len(i["location"]["city"]) > 0:
+            location_string = i["location"]["country"].replace(" ", "") + ' ' + i["location"]["city"].replace(" ", "")
         last_str = (features_string + ' ' + hobbies_string + ' ' + job_string + ' ' +
                     school_string + ' ' + location_string)
         place_holder.append(last_str)
@@ -79,6 +91,7 @@ def get_user_recommendations(username):
     result = get_sample_data(username)
     if len(result) != 0:
         user_infos = extract_user_info(result)
+        print(user_infos)
         result = get_recommendations_based_on_cos_sim(username, user_infos)
     return result
 
@@ -89,4 +102,5 @@ def match_users(match_result: dict = Depends(get_user_recommendations)):
 
 
 if __name__ == "__main__":
+    print("http://127.0.0.1:8000/user/cagdasay/recommendations/")
     uvicorn.run(app)
