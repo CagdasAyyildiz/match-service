@@ -56,7 +56,10 @@ def extract_user_info(encoded_data):
     school_string = ""
     location_string = ""
     user_infos = []
-    main_user = encoded_data["matches"][0]
+    print(encoded_data)
+    main_user = {}
+    if len(encoded_data['matches']) > 0:
+        main_user = encoded_data["matches"][0]
     for i in encoded_data.get("matches", []):
         place_holder = [i["username"]]
         if len(main_user["features"]) > 0:
@@ -71,6 +74,7 @@ def extract_user_info(encoded_data):
             location_string = i["location"]["country"].replace(" ", "") + ' ' + i["location"]["city"].replace(" ", "")
         last_str = (features_string + ' ' + hobbies_string + ' ' + job_string + ' ' +
                     school_string + ' ' + location_string)
+        print(last_str)
         place_holder.append(last_str)
         user_infos.append(place_holder)
     return user_infos
@@ -88,7 +92,9 @@ def get_user_recommendations(username):
     result = get_sample_data(username)
     if len(result) != 0:
         user_infos = extract_user_info(result)
-        result = get_recommendations_based_on_cos_sim(username, user_infos)
+        print(user_infos)
+        if len(user_infos) > 0:
+            result = get_recommendations_based_on_cos_sim(username, user_infos)
     return result
 
 
