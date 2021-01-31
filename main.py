@@ -102,5 +102,4 @@ def match_users(match_result: dict = Depends(get_user_recommendations)):
 
 
 if __name__ == "__main__":
-    print("http://127.0.0.1:8000/user/cagdasay/recommendations/")
     uvicorn.run(app)
