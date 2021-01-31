@@ -15,14 +15,14 @@ class TestExtractUserInfo(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_empty_dictionary(self):
-        data = {}
+        data = {'matches': []}
         expected = []
         actual = extract_user_info(data)
         self.assertEqual(actual, expected)
 
     def test_invalid_datatype(self):
         data = "Invalid data type"
-        self.assertRaises(AttributeError, extract_user_info, data)
+        self.assertRaises(TypeError, extract_user_info, data)
 
 
 def override_user_recommendations(username):

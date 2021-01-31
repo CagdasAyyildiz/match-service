@@ -56,7 +56,6 @@ def extract_user_info(encoded_data):
     school_string = ""
     location_string = ""
     user_infos = []
-    print(encoded_data)
     main_user = {}
     if len(encoded_data['matches']) > 0:
         main_user = encoded_data["matches"][0]
@@ -92,7 +91,6 @@ def get_user_recommendations(username):
     result = get_sample_data(username)
     if len(result) != 0:
         user_infos = extract_user_info(result)
-        print(user_infos)
         if len(user_infos) > 0:
             result = get_recommendations_based_on_cos_sim(username, user_infos)
     return result
